@@ -35,6 +35,9 @@ setup(
             "rttm-trim=rtrimmer.cli:main",
         ],
     },
-    install_requires=[],
+    install_requires=[
+        "ffmpeg-python>=0.2.0",
+        "pyannote.core>=4.5.1"
+    ],
     keywords="rttm, diarization, audio, trimming, pyannote",
 )
