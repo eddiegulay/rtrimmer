@@ -1,29 +1,40 @@
+"""
+Setup script for rtrimmer package.
+"""
+
 from setuptools import setup, find_packages
+
+# Read the long description from README.md
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
 
 setup(
     name="rtrimmer",
     version="0.1.0",
-    description="Lightweight RTTM and audio trimmer package.",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="eddiegulay",
+    author_email="edgargulay@outlook.com.com",
+    description="Lightweight Python package to trim RTTM diarization files and audio files",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/eddiegulay/rtrimmer",
     packages=find_packages(),
-    install_requires=[
-        "typer>=0.9.0",
-    ],  # Add dependencies here
-    entry_points={
-        'console_scripts': [
-            'rttm-trim = rtrimmer.cli:main',
-        ],
-    },
-    python_requires='>=3.8',
-    include_package_data=True,
-    url="https://github.com/yourusername/rtrimmer",
     classifiers=[
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
+        "Topic :: Multimedia :: Sound/Audio",
+        "Topic :: Scientific/Engineering :: Information Analysis",
     ],
-    long_description=open("README.md", encoding="utf-8").read(),
-    long_description_content_type="text/markdown",
-    license="MIT",
+    python_requires=">=3.8",
+    entry_points={
+        "console_scripts": [
+            "rttm-trim=rtrimmer.cli:main",
+        ],
+    },
+    install_requires=[],
+    keywords="rttm, diarization, audio, trimming, pyannote",
 )

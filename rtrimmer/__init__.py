@@ -1,4 +1,8 @@
-"""rtrimmer: Lightweight RTTM and audio trimmer package."""
+"""
+rtrimmer - Lightweight Python package to trim RTTM diarization files and audio files.
+"""
 
-from .rttm_trimmer import trim_rttm
-from .audio_trimmer import trim_audio
+from .core import trim_rttm, trim_audio, trim_rttm_folder
+from .version import __version__
+
+__all__ = ['trim_rttm', 'trim_audio', 'trim_rttm_folder', '__version__']

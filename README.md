@@ -23,7 +23,7 @@ pip install rtrimmer
 Trim an RTTM file to the first 5 minutes (300 seconds):
 
 ```bash
-rttm-trim --rttm input.rttm --output trimmed.rttm --duration 300
+rttm-trim --rttm input.rttm --output-rttm trimmed.rttm --duration 300
 ```
 
 Trim both RTTM and audio file:
@@ -38,17 +38,45 @@ Batch trim all RTTM files in a folder:
 rttm-trim --rttm-folder ./rttms --output-folder ./trimmed_rttms --duration 300
 ```
 
+Trim starting from a specific time point (e.g., 60 seconds in) for 5 minutes:
+
+```bash
+rttm-trim --rttm input.rttm --output-rttm trimmed.rttm --start-time 60 --duration 300
+```
+
 ### Python API
 
 ```python
-from rtrimmer import trim_rttm, trim_audio
+from rtrimmer import trim_rttm, trim_audio, trim_rttm_folder
 
-# Trim RTTM
+# Trim a single RTTM file
 trim_rttm("session1.rttm", "session1_trimmed.rttm", max_duration=300)
 
-# Trim Audio
-trim_audio("session1.wav", "session1_trimmed.wav", duration=300)
+# Trim starting from 60 seconds in
+trim_rttm("session1.rttm", "session1_trimmed.rttm", max_duration=300, min_time=60)
+
+# Trim audio file
+trim_audio("session1.wav", "session1_trimmed.wav", duration=300, start_time=0)
+
+# Batch process a folder of RTTM files
+results = trim_rttm_folder("./rttms", "./trimmed_rttms", max_duration=300)
+print(f"Processed {len(results)} files")
 ```
+
+## How It Works
+
+### RTTM Trimming Logic
+
+The package handles various edge cases when trimming RTTM files:
+
+1. **Segments fully within the target range**: Kept as is
+2. **Segments starting before the target range but extending into it**: Start time adjusted to the beginning of the target range, duration shortened accordingly
+3. **Segments extending beyond the target range**: Duration shortened to end at the target range boundary
+4. **Segments outside the target range**: Excluded from the output
+
+### Audio Trimming
+
+Audio trimming is performed using ffmpeg, which must be installed and available in your PATH. The package attempts to use the copy codec for faster processing, but falls back to re-encoding if needed.
 
 ## Requirements
 - Python 3.8+
@@ -62,12 +90,10 @@ Suppose you have a diarization RTTM file and a corresponding WAV file for a 1-ho
 rttm-trim --rttm meeting.rttm --audio meeting.wav --output-rttm meeting_5min.rttm --output-audio meeting_5min.wav --duration 300
 ```
 
-## Troubleshooting
-- If you get an error about ffmpeg, ensure it is installed and available in your system PATH.
-- For malformed RTTM files, check the logs for line numbers and issues.
-
 ## License
-MIT
 
-## Links
-- [GitHub Repository](https://github.com/yourusername/rtrimmer)
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
